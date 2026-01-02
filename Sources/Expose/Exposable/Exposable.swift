@@ -8,6 +8,6 @@ import Foundation
 import Combine
 
 
-@attached(member, names: named(registrar))
+@attached(member, names: named(registrar), named(objectWillChange))
 @attached(extension, conformances: NewExposableObject, Combine.ObservableObject)
 public macro Exposable() = #externalMacro(module: "ExposeMacros", type: "ExposableMacro")
