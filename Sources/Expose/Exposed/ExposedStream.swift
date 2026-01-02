@@ -30,4 +30,9 @@ public struct ExposedStream<T> {
             .catch { _ in Empty<T, Never>() }
             .eraseToAnyPublisher()
     }
+
+    /// Swift Concurrency의 AsyncSequence (AsyncPublisher)
+    public var values: AsyncPublisher<AnyPublisher<T, Never>> {
+        publisher.values
+    }
 }
