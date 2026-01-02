@@ -9,4 +9,6 @@
 import Combine
 
 
-public typealias UnifiedObservable = ExposableObject & ObservableObject
+public protocol UnifiedObservable: ExposableObject, ObservableObject {
+    
+}
