@@ -6,7 +6,7 @@
 //
 
 
-import Observation
+@_exported import Observation
 
 
 @available(iOS 17.0, *)
