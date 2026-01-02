@@ -26,7 +26,7 @@ public struct Exposed<T> {
 
     /// 핵심: Observation 통합 서브스크립트
     /// EnclosingSelf가 NewExposable을 채택하고 있어야 registrar에 접근 가능합니다.
-    public static subscript<EnclosingSelf: UnifiedObservable> (
+    public static subscript<EnclosingSelf: ExposableObject> (
         _enclosingInstance instance: EnclosingSelf,
         wrapped wrappedKeyPath: ReferenceWritableKeyPath<EnclosingSelf, T>,
         storage storageKeyPath: ReferenceWritableKeyPath<EnclosingSelf, Exposed<T>>
@@ -45,7 +45,7 @@ public struct Exposed<T> {
     }
 
     /// 값 타입(Struct)에서의 사용을 제한하고 클래스 멤버로 유도
-    @available(*, unavailable, message: "@NewRelayed는 NewExposable 클래스의 멤버로만 사용 가능합니다.")
+    @available(*, unavailable, message: "사용 불가")
     public var wrappedValue: T {
         get { fatalError() }
         set { fatalError() }
