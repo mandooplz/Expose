@@ -10,7 +10,7 @@ import RxCocoa
 @_exported import Combine
 
 
-@available(iOS 17.0, *)
+@available(iOS 15.0, *)
 @propertyWrapper
 public struct Exposed<T> {
     private var relay: BehaviorRelay<T>
@@ -32,15 +32,25 @@ public struct Exposed<T> {
         storage storageKeyPath: ReferenceWritableKeyPath<EnclosingSelf, Exposed<T>>
     ) -> T {
         get {
-            // 1. SwiftUI가 이 값을 읽을 때 감지 (Tracking)
-            instance.registrar.access(instance, keyPath: wrappedKeyPath)
+            if #available(iOS 17.0, *) {
+                instance.trackAccess(wrappedKeyPath)
+            }
+            
             return instance[keyPath: storageKeyPath].relay.value
         }
         set {
-            // 2. SwiftUI에게 이 값이 바뀔 것임을 알림 (Mutation)
-            instance.registrar.withMutation(of: instance, keyPath: wrappedKeyPath) {
-                instance[keyPath: storageKeyPath].relay.accept(newValue)
+            // 2. Combine 알림 (iOS 15+ 공통 지원)
+            instance.objectWillChange.send()
+
+            // 3. iOS 17 이상: Observation 방식 알림
+            if #available(iOS 17.0, *) {
+                instance.trackMutation(wrappedKeyPath) {
+                    instance[keyPath: storageKeyPath].relay.accept(newValue)
+                }
             }
+            
+            // 4. Fallback: iOS 15/16 또는 캐스팅 실패 시 기본 업데이트
+            instance[keyPath: storageKeyPath].relay.accept(newValue)
         }
     }
 
