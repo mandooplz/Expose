@@ -88,7 +88,7 @@ struct AuctionView: View {
 }
 ```
 
-### Via Combine (Reactive approach)
+#### Via Combine (Reactive approach)
 
 Expose automatically exposes `@Exposed` properties as Combine publishers, allowing you to react to state changes using Combine’s declarative, stream-based model.
 
