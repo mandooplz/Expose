@@ -127,7 +127,7 @@ public struct Exposed<T> {
     ///
     /// Access must go through the enclosing-instance subscript to ensure
     /// correct Observation and reactive propagation semantics.
-    @available(*, unavailable, message: "Not available")
+    @available(*, unavailable, message: "@Exposed can only be accessed on ExposableObject classes")
     public var wrappedValue: T {
         get { fatalError() }
         set { fatalError() }
